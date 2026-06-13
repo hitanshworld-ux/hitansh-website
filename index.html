@@ -266,6 +266,16 @@ Born on 11 April 2025 ❤️
 </p>
 
   </div>
+  <div class="card">
+<h2>🎲 Surprise Memory</h2>
+
+<button onclick="showMemory()">
+Show Random Memory
+</button>
+
+<p id="memoryText"></p>
+
+  </div>
 
 <div class="card">
 <h2>💌 Dear Future Hitansh</h2>
@@ -349,6 +359,19 @@ const stories = {
 yearStory.innerHTML =
 stories[year] || "✨ Future memories will be added...";
 };
+  function showMemory(){
+
+const memories = [
+"😊 First Smile",
+"🌊 First Beach Visit",
+"🚜 Tractor Adventure",
+"📺 Remote Control Mission",
+"🎂 First Birthday"
+];
+
+document.getElementById("memoryText").innerHTML =
+memories[Math.floor(Math.random()*memories.length)];
+  }
 </script>
 
 </body>
