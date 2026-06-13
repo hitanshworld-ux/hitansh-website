@@ -100,7 +100,13 @@ A bundle of joy who fills every day with smiles and happiness.
 
   </div>
 
+<div class="card">
+<h2>📸 My Memories</h2>
 
+<img id="slider"
+src="hero.jpg"
+style="width:100%;max-width:500px;border-radius:20px;">
+</div>
 <div class="card">
 <h2>📸 Memory Gallery</h2>
 <div class="gallery">
@@ -162,6 +168,27 @@ const diff = Math.ceil((nextBirthday-now)/(1000*60*60*24));
 
 document.getElementById("birthday").innerHTML =
 "🎂 Next Birthday in " + diff + " Days";
+  const photos = [
+"hero.jpg",
+"tractor.jpg",
+"beach.jpg",
+"suit.jpg",
+"red1.jpg",
+"store.jpg"
+];
+
+let current = 0;
+
+setInterval(() => {
+current++;
+
+if(current >= photos.length){
+current = 0;
+}
+
+document.getElementById("slider").src = photos[current];
+
+},3000);
 </script>
 
 </body>
