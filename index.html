@@ -254,6 +254,18 @@ Open this message again when you turn 18. 🎂
 <p>📸 Camera Attention 😄</p>
 
   </div>
+  <div class="card">
+<h2>⏳ Hitansh Through Time</h2>
+
+<input type="range" min="2025" max="2045" value="2025" id="yearSlider">
+
+<h3 id="yearTitle">Year: 2025 👶</h3>
+
+<p id="yearStory">
+Born on 11 April 2025 ❤️
+</p>
+
+  </div>
 
 <div class="card">
 <h2>💌 Dear Future Hitansh</h2>
@@ -315,6 +327,28 @@ current = 0;
 document.getElementById("slider").src = photos[current];
 
 },3000);
+  const slider = document.getElementById("yearSlider");
+const yearTitle = document.getElementById("yearTitle");
+const yearStory = document.getElementById("yearStory");
+
+slider.oninput = function() {
+
+const year = this.value;
+
+yearTitle.innerHTML = "Year: " + year;
+
+const stories = {
+2025:"👶 Born on 11 April 2025 ❤️",
+2026:"🎂 First Birthday",
+2027:"🚶 Learning new things",
+2028:"🏫 School Journey Begins",
+2029:"⚽ Playing and Exploring",
+2030:"🌟 Growing Every Day"
+};
+
+yearStory.innerHTML =
+stories[year] || "✨ Future memories will be added...";
+};
 </script>
 
 </body>
