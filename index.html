@@ -3,23 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hitansh's World</title>
+<title>Hitansh's World ❤️</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
+margin:0;
+font-family:Arial,sans-serif;
 background:#f8fafc;
+color:#333;
 }
 
 .hero{
 height:100vh;
-background:url('store.jpg') center center/cover;
+background:url('store.jpg') center/cover;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -28,65 +24,47 @@ position:relative;
 }
 
 .hero::before{
-content:"";
+content:'';
 position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.4);
+inset:0;
+background:rgba(0,0,0,.45);
 }
 
 .hero-content{
 position:relative;
 color:white;
-z-index:1;
 padding:20px;
 }
 
 .hero h1{
 font-size:3rem;
-margin-bottom:10px;
 }
 
-.hero p{
-font-size:1.2rem;
-margin-bottom:20px;
-}
-
-.counter{
-font-size:1.5rem;
-font-weight:bold;
-background:rgba(255,255,255,.2);
-padding:12px 20px;
-border-radius:12px;
-display:inline-block;
-}
-
-section{
-padding:60px 20px;
-max-width:1100px;
-margin:auto;
-text-align:center;
+.card{
+background:white;
+margin:20px;
+padding:25px;
+border-radius:20px;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
 }
 
 .gallery{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+gap:15px;
+padding:20px;
 }
 
 .gallery img{
 width:100%;
 border-radius:15px;
-box-shadow:0 5px 20px rgba(0,0,0,.15);
 }
 
 footer{
 background:#111827;
 color:white;
-padding:20px;
 text-align:center;
+padding:20px;
 }
 </style>
 </head>
@@ -97,40 +75,58 @@ text-align:center;
 <div class="hero-content">
 <h1>👶 Hitansh's World</h1>
 <p>Every Smile Creates a Memory ❤️</p>
-<div class="counter" id="age"></div>
+
+<h3 id="age"></h3>
+<h3 id="birthday"></h3>
 </div>
 </div>
 
-<section>
-<h2>About Me</h2>
-<br>
+<div class="card">
+<h2>👶 About Hitansh</h2>
 <p>
-Born on 11 April 2025 in Barnagar, Madhya Pradesh.
+Born on 11 April 2025.
+A bundle of joy who fills every day with smiles and happiness.
 </p>
-</section>
-
-<section>
-<h2>Photo Gallery</h2>
-<br><br>
-
-<div class="gallery">
-    <img src="store.jpg" alt="Hitansh">
-    <img src="tractor.jpg" alt="Hitansh Tractor">
-    <img src="beach.jpg" alt="Hitansh Beach">
-    <img src="suit.jpg" alt="Hitansh Suit">
-    <img src="red1.jpg" alt="Hitansh">
-    <img src="hero.jpg" alt="Hitansh Store">
 </div>
 
-</section>
-    <section>
+<div class="card">
+<h2>🌟 Milestones</h2>
+<ul>
+<li>👶 Born - 11 April 2025</li>
+<li>😊 First Smile</li>
+<li>🍼 First Solid Food</li>
+<li>🚶 First Steps</li>
+<li>🎂 First Birthday</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>📸 Memory Gallery</h2>
+<div class="gallery">
+<img src="store.jpg">
+<img src="tractor.jpg">
+<img src="beach.jpg">
+<img src="suit.jpg">
+<img src="red1.jpg">
+<img src="hero.jpg">
+</div>
+</div>
+
+<div class="card">
 <h2>📝 Papa's Diary</h2>
-<br>
 <p>
-11 April 2025 ❤️<br>
+11 April 2025 ❤️<br><br>
 The day our little Hitansh came into our lives and changed our world forever.
 </p>
-    </section>
+</div>
+
+<div class="card">
+<h2>💌 Message For Future Hitansh</h2>
+<p>
+Dear Hitansh,<br><br>
+When you grow up and read this, always remember that you are deeply loved by your family.
+</p>
+</div>
 
 <footer>
 Made with ❤️ by Papa & Mummy
@@ -139,17 +135,22 @@ Made with ❤️ by Papa & Mummy
 <script>
 const birthDate = new Date("2025-04-11");
 
-function updateAge(){
-const today = new Date();
-
-let diff = today - birthDate;
-let days = Math.floor(diff/(1000*60*60*24));
+const now = new Date();
+const ageDays = Math.floor((now - birthDate)/(1000*60*60*24));
 
 document.getElementById("age").innerHTML =
-"🎂 " + days + " Days of Smiles";
+"🎉 " + ageDays + " Days of Smiles";
+
+let nextBirthday = new Date(now.getFullYear(),3,11);
+
+if(now > nextBirthday){
+nextBirthday = new Date(now.getFullYear()+1,3,11);
 }
 
-updateAge();
+const diff = Math.ceil((nextBirthday-now)/(1000*60*60*24));
+
+document.getElementById("birthday").innerHTML =
+"🎂 Next Birthday in " + diff + " Days";
 </script>
 
 </body>
