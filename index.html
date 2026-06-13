@@ -1,34 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hitansh's World</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f8fafc;
+}
+
+.hero{
+height:100vh;
+background:url('hero.jpg') center center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.4);
+}
+
+.hero-content{
+position:relative;
+color:white;
+z-index:1;
+padding:20px;
+}
+
+.hero h1{
+font-size:3rem;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:1.2rem;
+margin-bottom:20px;
+}
+
+.counter{
+font-size:1.5rem;
+font-weight:bold;
+background:rgba(255,255,255,.2);
+padding:12px 20px;
+border-radius:12px;
+display:inline-block;
+}
+
+section{
+padding:60px 20px;
+max-width:1100px;
+margin:auto;
+text-align:center;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.gallery img{
+width:100%;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+footer{
+background:#111827;
+color:white;
+padding:20px;
+text-align:center;
+}
+</style>
 </head>
+
 <body>
 
-<header class="hero">
+<div class="hero">
+<div class="hero-content">
 <h1>👶 Hitansh's World</h1>
 <p>Every Smile Creates a Memory ❤️</p>
-</header>
+<div class="counter" id="age"></div>
+</div>
+</div>
 
 <section>
 <h2>About Me</h2>
-<p>Born on 11 April 2025 in Barnagar, Madhya Pradesh.</p>
+<br>
+<p>
+Born on 11 April 2025 in Barnagar, Madhya Pradesh.
+</p>
 </section>
 
 <section>
 <h2>Photo Gallery</h2>
+<br><br>
+
 <div class="gallery">
 <img src="hero.jpg">
-<img src="images/tractor.jpg">
-<img src="images/beach.jpg">
-<img src="images/suit.jpg">
 </div>
+
 </section>
 
 <footer>
 Made with ❤️ by Papa & Mama
 </footer>
+
+<script>
+const birthDate = new Date("2025-04-11");
+
+function updateAge(){
+const today = new Date();
+
+let diff = today - birthDate;
+let days = Math.floor(diff/(1000*60*60*24));
+
+document.getElementById("age").innerHTML =
+"🎂 " + days + " Days of Smiles";
+}
+
+updateAge();
+</script>
 
 </body>
 </html>
