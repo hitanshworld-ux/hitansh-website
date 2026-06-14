@@ -1,527 +1,950 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hitansh's World ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+
 <style>
-:root { --bg:#fff8f5; --text:#2d1a10; --card:#ffffff; }
-[data-theme="dark"] { --bg:#1a0f0a; --text:#ffeedd; --card:#2d1710; }
-body { background:var(--bg); color:var(--text); transition:0.35s; }
-</style>
-<style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f8fafc;
-color:#333;
+/* ─── TOKENS ─── */
+:root {
+  --rose:    #ff6b8a;
+  --peach:   #ffb347;
+  --sky:     #74c0fc;
+  --mint:    #63e6be;
+  --purple:  #cc5de8;
+  --bg:      #fff8f6;
+  --card:    #ffffff;
+  --text:    #2d1a10;
+  --muted:   #7a5c4e;
+  --border:  #fde3d8;
+  --shadow:  rgba(255,107,138,0.12);
+  --radius:  22px;
+}
+[data-theme="dark"] {
+  --bg:    #1a0e0b;
+  --card:  #2a1710;
+  --text:  #ffeedd;
+  --muted: #c4957f;
+  --border:#3d2010;
+  --shadow:rgba(0,0,0,0.4);
 }
 
-.hero{
-height:100vh;
-background:url('store.jpg') center/cover;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-position:relative;
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.35s, color 0.35s;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+ol, ul { list-style: none; }
+
+/* ─── FLOATING CONTROLS ─── */
+.fab-group {
+  position: fixed;
+  top: 18px; right: 18px;
+  display: flex; gap: 10px;
+  z-index: 1000;
+}
+.fab {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transition: transform 0.2s;
+}
+.fab:hover { transform: scale(1.1); }
+.fab-music  { background: var(--peach); color: #fff; }
+.fab-theme  { background: var(--rose);  color: #fff; }
+
+/* ─── HERO ─── */
+.hero {
+  height: 100vh;
+  background: url('store.jpg') center/cover no-repeat;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(255,107,138,0.6) 0%, rgba(0,0,0,0.5) 100%);
+}
+.hero-content { position: relative; color: #fff; padding: 24px; }
+.hero-title {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  line-height: 1.1;
+  text-shadow: 0 3px 18px rgba(0,0,0,0.35);
+  margin-bottom: 12px;
+}
+.hero-sub {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  opacity: 0.92;
+  margin-bottom: 28px;
+}
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  justify-content: center;
+}
+.badge {
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  animation: bounce 1.8s infinite;
+  cursor: pointer;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-10px); }
 }
 
-.hero::before{
-content:'';
-position:absolute;
-inset:0;
-background:rgba(0,0,0,.45);
+/* ─── SECTIONS / CARDS ─── */
+.section { padding: 24px 16px; max-width: 900px; margin: 0 auto; }
+.section-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.6rem;
+  color: var(--rose);
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 24px var(--shadow);
+  border: 1.5px solid var(--border);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px var(--shadow);
 }
 
-.hero-content{
-position:relative;
-color:white;
-padding:20px;
+/* ─── STATS ROW ─── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-box {
+  background: linear-gradient(135deg, var(--rose), var(--peach));
+  border-radius: 16px;
+  padding: 20px 14px;
+  text-align: center;
+  color: #fff;
+}
+.stat-num  { font-size: 2rem; font-weight: 900; line-height: 1; }
+.stat-label{ font-size: 0.78rem; opacity: 0.9; margin-top: 4px; }
+
+/* ─── IMAGE SLIDER ─── */
+.slider-wrap {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #000;
+}
+.slider-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.slider-wrap img.active { opacity: 1; }
+.slider-dots {
+  display: flex; gap: 7px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none; cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s;
+}
+.dot.active { background: var(--rose); transform: scale(1.3); }
+
+/* ─── TIMELINE ─── */
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--rose), var(--mint));
+  border-radius: 3px;
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 22px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -24px; top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--rose);
+  border: 3px solid var(--card);
+  box-shadow: 0 0 0 2px var(--rose);
+}
+.tl-month {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--rose);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.tl-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 2px;
 }
 
-.hero h1{
-font-size:3rem;
+/* ─── GALLERY GRID ─── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.gallery-item {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--border);
+}
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.gallery-item:hover img { transform: scale(1.08); }
+
+/* ─── FAMILY TREE ─── */
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  text-align: center;
+}
+.family-member {
+  background: linear-gradient(135deg, #fff5f8, #fff);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 10px;
+  transition: transform 0.25s;
+}
+[data-theme="dark"] .family-member { background: #3a1e12; }
+.family-member:hover { transform: translateY(-4px); }
+.family-emoji { font-size: 2.4rem; }
+.family-role  { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+.family-name  { font-size: 0.9rem; font-weight: 700; }
+
+/* ─── MESSAGES ─── */
+.msg-list { display: flex; flex-direction: column; gap: 14px; }
+.msg-item {
+  background: linear-gradient(135deg, #fff5f8, #fff8f5);
+  border-left: 4px solid var(--rose);
+  border-radius: 0 14px 14px 0;
+  padding: 14px 16px;
+}
+[data-theme="dark"] .msg-item { background: #351a10; }
+.msg-who  { font-size: 0.8rem; color: var(--rose); font-weight: 700; margin-bottom: 4px; }
+.msg-text { font-size: 0.95rem; }
+
+/* ─── OPEN WHEN ─── */
+.open-when details {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.open-when summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  list-style: none;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card);
+  transition: background 0.2s;
+}
+.open-when summary:hover { background: #fff5f8; }
+[data-theme="dark"] .open-when summary:hover { background: #3a1e12; }
+.open-when summary::marker { display: none; }
+.open-when summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 1.3rem;
+  transition: transform 0.3s;
+}
+.open-when details[open] summary::after { transform: rotate(90deg); }
+.open-when .letter {
+  padding: 16px 18px;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
 }
 
-.card{
-background:white;
-margin:20px;
-padding:25px;
-border-radius:20px;
-box-shadow:0 4px 15px rgba(0,0,0,.1);
+/* ─── 100 REASONS ─── */
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.reason-item {
+  background: linear-gradient(135deg, #fff5f8, #fff8f5);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+[data-theme="dark"] .reason-item { background: #351a10; }
+.reason-num { color: var(--rose); font-weight: 800; min-width: 22px; }
+
+/* ─── YEAR SLIDER ─── */
+.year-range {
+  width: 100%;
+  accent-color: var(--rose);
+  height: 6px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+.year-display {
+  text-align: center;
+  padding: 18px;
+  background: linear-gradient(135deg, #fff0f4, #fff8f5);
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+}
+[data-theme="dark"] .year-display { background: #351a10; }
+.year-number { font-size: 2rem; font-weight: 900; color: var(--rose); }
+.year-story  { font-size: 0.95rem; margin-top: 8px; color: var(--muted); }
+
+/* ─── RANDOM MEMORY ─── */
+.memory-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--rose), var(--peach));
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(255,107,138,0.3);
+}
+.memory-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(255,107,138,0.4); }
+.memory-result {
+  margin-top: 14px;
+  padding: 16px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fff0f4, #fff8f5);
+  border: 1.5px solid var(--border);
+  display: none;
+}
+[data-theme="dark"] .memory-result { background: #351a10; }
+.memory-result.show { display: block; animation: pop 0.3s ease; }
+@keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ─── ENCYCLOPEDIA ─── */
+.enc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.enc-item {
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff5f8, #fff8f5);
+  border: 1.5px solid var(--border);
+}
+[data-theme="dark"] .enc-item { background: #351a10; }
+.enc-key   { font-size: 0.75rem; font-weight: 700; color: var(--rose); text-transform: uppercase; letter-spacing: 0.06em; }
+.enc-value { font-size: 1rem; font-weight: 700; margin-top: 4px; }
+
+/* ─── LOVE LIST ─── */
+.love-list {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.love-tag {
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #fff0f4, #ffe8f0);
+  border: 1.5px solid #ffc5d5;
+  color: var(--rose);
+  transition: transform 0.2s;
+}
+[data-theme="dark"] .love-tag { background: #451a22; border-color: #7a2035; }
+.love-tag:hover { transform: scale(1.05); }
+
+/* ─── SOCIAL ─── */
+.social-card {
+  display: flex; align-items: center; gap: 16px;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 14px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px var(--shadow);
+  transition: transform 0.25s;
+}
+.social-card:hover { transform: translateY(-3px); }
+.social-yt  { background: linear-gradient(135deg, #ff2222, #cc0000); }
+.social-ig  { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.social-icon {
+  width: 52px; height: 52px;
+  background: #fff;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.social-info { flex: 1; }
+.social-name { color: #fff; font-weight: 800; font-size: 1rem; }
+.social-desc { color: rgba(255,255,255,0.85); font-size: 0.82rem; margin-top: 2px; }
+.social-cta {
+  background: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 9px 18px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.cta-yt { color: #cc0000; }
+.cta-ig { color: #cc2366; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: #111827;
+  color: #e5e7eb;
+  text-align: center;
+  padding: 36px 20px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+footer .heart { color: var(--rose); }
+
+/* ─── CAPSULE / DIARY ─── */
+.capsule-box {
+  background: linear-gradient(135deg, #fff0f4, #f0f8ff);
+  border-radius: 16px;
+  padding: 22px;
+  border: 2px dashed var(--rose);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  position: relative;
+}
+[data-theme="dark"] .capsule-box { background: #2a1520; }
+.capsule-stamp {
+  position: absolute;
+  top: -14px; right: 20px;
+  background: var(--rose);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 50px;
+  letter-spacing: 0.06em;
 }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
-padding:20px;
+/* ─── VIDEOS ─── */
+.video-wrap {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  justify-content: center;
+}
+.video-wrap iframe {
+  border-radius: 14px;
+  max-width: 100%;
 }
 
-.gallery img{
-width:100%;
-border-radius:15px;
+/* ─── ANIMATIONS ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
+.fade-in.visible { opacity: 1; transform: none; }
 
-footer{
-background:#111827;
-color:white;
-text-align:center;
-padding:20px;
-}
-  .social-btn{
-display:inline-block;
-padding:12px 20px;
-margin:10px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
-background:#f3f4f6;
-color:#111827;
-  }
-  .social-btn{
-display:inline-block;
-padding:10px 18px;
-margin:8px;
-border-radius:10px;
-background:#f3f4f6;
-text-decoration:none;
-font-weight:bold;
-color:#111827;
-}
-
-.social-btn:hover{
-transform:scale(1.05);
+/* ─── RESPONSIVE ─── */
+@media (max-width: 520px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .hero-title { font-size: 2rem; }
+  .section { padding: 16px 12px; }
+  .card { padding: 20px 16px; }
+  .reasons-grid { grid-template-columns: 1fr; }
+  .enc-grid { grid-template-columns: 1fr 1fr; }
+  .social-card { flex-wrap: wrap; }
 }
 </style>
 </head>
 
 <body>
-<button onclick="toggleTheme()" style="position:fixed;top:18px;right:18px;
-  z-index:999;padding:10px 18px;border-radius:50px;
-  border:none;background:#ff6b6b;color:#fff;
-  font-size:18px;cursor:pointer;">
-  🌙 Mode
-</button>
 
+<!-- FLOATING CONTROLS -->
+<div class="fab-group">
+  <button class="fab fab-music" onclick="toggleMusic()" id="musicBtn" title="Music">🎵</button>
+  <button class="fab fab-theme" onclick="toggleTheme()" id="themeBtn" title="Dark Mode">🌙</button>
+</div>
+
+<!-- BACKGROUND MUSIC -->
 <audio id="bg" loop src="lullaby.mp3"></audio>
 
-<button onclick="toggleMusic()" style="position:fixed;top:18px;right:110px;
-  z-index:999;padding:10px 18px;border-radius:50px;
-  border:none;background:#ffb347;color:#fff;
-  font-size:18px;cursor:pointer;">🎵</button>
-
-<script>
-  function toggleTheme() {
-    const t = document.documentElement;
-    t.dataset.theme = t.dataset.theme==='dark' ? 'light' : 'dark';
-  }
-  function toggleMusic() {
-    const a = document.getElementById('bg');
-    a.paused ? a.play() : a.pause();
-  }
-</script>
-<div class="hero">
-<div class="hero-content">
-<h1>👶 Hitansh's World</h1>
-<p>Every Smile Creates a Memory ❤️</p>
-
-<h3 id="age"></h3>
-<h3 id="birthday"></h3>
-</div>
-</div>
-<div class="card">
-<h2>👶 About Hitansh</h2>
-<p>
-Born on 11 April 2025.
-A bundle of joy who fills every day with smiles and happiness.
-</p>
-</div>
-  <div class="card">
-<h2>📅 Memory Timeline</h2>
-
-<p>❤️ 11 April 2025 - Born</p>
-<p>😊 First Smile</p>
-<p>🍼 First Solid Food</p>
-<p>🦷 First Tooth</p>
-<p>🚶 First Steps</p>
-<p>🎂 First Birthday</p>
-
-  </div>
-
-<div class="card">
-<h2>📸 My Memories</h2>
-
-<img id="slider"
-src="hero.jpg"
-style="width:100%;max-width:500px;border-radius:20px;">
-</div>
-<div class="card">
-<h2>📸 Memory Gallery</h2>
-<div class="gallery">
-<img src="store.jpg">
-<img src="tractor.jpg">
-<img src="beach.jpg">
-<img src="suit.jpg">
-<img src="red1.jpg">
-<img src="hero.jpg">
-</div>
-</div>
-  <div class="card">
-<h2>🌳 My Family</h2>
-
-<p>👨 Papa</p>
-<p>👩 Mummy</p>
-<p>👴 Dada</p>
-<p>👵 Dadi</p>
-<p>👶 Hitansh</p>
-
-  </div>
-  <div class="card">
-<h2>🎥 Hitansh's Videos</h2>
-
-<iframe width="315" height="560"
-src="https://youtube.com/embed/6TiEnfduO8I?si=Ks5ZraKGS9ItJ_Aa"
-title="YouTube Shorts"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
-<br><br>
-
-<iframe width="315" height="560"
-src="https://www.youtube.com/embed/fXRLe2mU5b4?si=DJdCwKR1oExsuNXF"
-title="YouTube Shorts"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
-  </div>
-<div class="card">
-<h2>💌 Messages From Family</h2>
-
-<p><b>👨 Papa:</b> We love you forever ❤️</p>
-<p><b>👩 Mummy:</b> You are our little sunshine ☀️</p>
-<p><b>👴 Dada:</b> Always stay happy 😊</p>
-<p><b>👵 Dadi:</b> God bless you always 🙏</p>
-
-</div>
-  <div class="card">
-<h2>🎵 Favorite Songs</h2>
-<p>Laal Tamatar Bade mazedar 🍅</p>
-<p>Kalu Madari Aaya 🙉</p>
-  </div>
-  <div class="card">
-<h2>😂 Funny Moments</h2>
-<p>Remote chhupa diya 😄</p>
-<p>Nariyal uthana chaha 🥥</p>
-<p>Bartan baja kar concert kiya 🥁</p>
-  </div>
-  <div class="card">
-<h2>📅 Monthly Memories</h2>
-
-<p>👶 April 2025 - Welcome Nana-Nani Home</p>
-<p>😊 May 2025 - First Smile</p>
-<p>🚗 June 2025 - First Family Outing</p>
-<p>🌊 July 2025 - First Family Function</p>
-<p>🌊 August 2025 - First Rain</p>
-<p>🌊 September 2025 - Welcome Dada- Dadi Home</p>
-<p>🌊 October 2025 - First Diwali</p>
-<p>🌊 November 2025 - Annaprashan Ceramany</p>
-<p>🌊 December 2025 - First Winter</p>
-<p>🌊 January 2026 - First Train Journey</p>
-<p>🌊 February 2026 - First Waking</p>
-<p>🌊 March 2026 - First Teeth</p>
-<p>🌊 April 2026 - My First Birthday</p>
-  </div>
-<div class="card">
-<h2>📝 Papa's Diary</h2>
-<p>
-11 April 2025 ❤️<br><br>
-The day our little Hitansh came into our lives and changed our world forever.
-</p>
-</div>
-  <div class="card">
-<h2>⏳ Time Capsule</h2>
-
-<p>
-📅 Created: June 2026
-</p>
-
-<p>
-Dear Future Hitansh,
-</p>
-
-<p>
-If you are reading this years from now,
-remember that when this message was written,
-you were a happy little boy who loved exploring,
-playing, and making everyone smile. ❤️
-</p>
-
-<p>
-Open this message again when you turn 18. 🎂
-</p>
-
-  </div>
-  <div class="card">
-<h2>🎁 Open When Letters</h2>
-
-<details>
-<summary>🔒 Open When You Turn 5</summary>
-<p>
-Dear Hitansh,<br><br>
-Today you are a little boy who fills our home with laughter.
-Never stop being curious and joyful. ❤️
-</p>
-</details>
-
-<br>
-
-<details>
-<summary>🔒 Open When You Start School</summary>
-<p>
-Dear Hitansh,<br><br>
-Be kind, make friends, ask questions and enjoy learning.
-We are always proud of you. 📚❤️
-</p>
-</details>
-
-<br>
-
-<details>
-<summary>🔒 Open When You Turn 18</summary>
-<p>
-Dear Hitansh,<br><br>
-This message was written when you were still a baby.
-No matter how old you are, you will always be our little boy. ❤️
-</p>
-</details>
-
-  </div>
-  <div class="card">
-<h2>❤️ 100 Reasons We Love Hitansh</h2>
-
-<ol style="text-align:left; max-width:700px; margin:auto;">
-<li>Your beautiful smile 😊</li>
-<li>Your cute laugh 😂</li>
-<li>Your curious nature 🤔</li>
-<li>Your love for adventures 🌍</li>
-<li>Your innocent eyes ❤️</li>
-<li>Your funny expressions 😆</li>
-<li>You make everyone happy 🥰</li>
-<li>You love going out with Dada 👴</li>
-<li>You bring joy to our family 🌟</li>
-<li>You are simply our world ❤️</li>
-</ol>
-
-<p><i>More reasons will be added every year...</i></p>
-  </div>
-  <div class="card">
-<h2>📖 Hitansh Encyclopedia</h2>
-
-<p><b>Name:</b> Hitansh</p>
-<p><b>Nickname:</b> Golu Molu</p>
-<p><b>Date of Birth:</b> 11 April 2025</p>
-<p><b>Superpower:</b> Making everyone smile 😊</p>
-<p><b>Favorite Thing:</b> Remote Control 📺</p>
-<p><b>Best Adventure Partner:</b> Dada-Nana 👴</p>
-
-  </div>
-  <div class="card">
-<h2>❤️ Things I Love</h2>
-
-<p>📺 Remote Control</p>
-<p>🚜 Tractor</p>
-<p>🌊 Going Outside</p>
-<p>👴 Spending Time With Dada</p>
-<p>📸 Camera Attention 😄</p>
-
-  </div>
-  <div class="card">
-<h2>⏳ Hitansh Through Time</h2>
-
-<input type="range" min="2025" max="2045" value="2025" id="yearSlider">
-
-<h3 id="yearTitle">Year: 2025 👶</h3>
-
-<p id="yearStory">
-Born on 11 April 2025 ❤️
-</p>
-
-  </div>
-  <div class="card">
-<h2>🎲 Surprise Memory</h2>
-
-<button onclick="showMemory()">
-Show Random Memory
-</button>
-
-<p id="memoryText"></p>
-
-  </div>
-
-<div class="card">
-<h2>💌 Dear Future Hitansh</h2>
-
-<p>
-Dear Hitansh,
-
-When you read this someday,
-remember that every photo on this website
-holds a beautiful memory of your childhood.
-
-Love ❤️
-Papa & Mummy 
-</p>
-
-</div>
-<footer>
-
-<!-- SOCIAL MEDIA SECTION -->
-<section style="max-width:680px;margin:40px auto;padding:0 16px">
-
-  <h2 style="text-align:center;font-size:1.8rem;color:#ff6b6b;margin-bottom:8px">
-    📱 Follow Hitansh!
-  </h2>
-  <p style="text-align:center;color:#7a4a35;margin-bottom:24px">
-    Cute moments miss mat karna ❤️
-  </p>
-
-  <!-- YouTube -->
-  <a href="https://www.youtube.com/@little_hitansh_1"
-     target="_blank"
-     style="display:flex;align-items:center;gap:16px;
-       background:linear-gradient(135deg,#ff0000,#cc0000);
-       border-radius:18px;padding:24px;margin-bottom:14px;
-       text-decoration:none;box-shadow:0 8px 24px rgba(255,0,0,0.2)">
-    <span style="font-size:40px;background:#fff;border-radius:12px;padding:8px">▶️</span>
-    <div style="flex:1">
-      <h3 style="color:#fff;margin:0 0 4px">@little_hitansh_1</h3>
-      <p style="color:rgba(255,255,255,0.85);margin:0;font-size:0.9rem">
-        YouTube Shorts • Funny moments
-      </p>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">👶 Hitansh's World</h1>
+    <p class="hero-sub">Har Smile Ek Yaad Hai ❤️</p>
+    <div class="hero-badges">
+      <span class="badge" id="ageBadge">⏳ Loading...</span>
+      <span class="badge" id="bdayBadge">🎂 Loading...</span>
     </div>
-    <span style="background:#fff;color:#cc0000;font-weight:800;
-      padding:10px 20px;border-radius:50px;white-space:nowrap">SUBSCRIBE</span>
-  </a>
-
-  <!-- Instagram -->
-  <a href="https://www.instagram.com/little_hitansh_1"
-     target="_blank"
-     style="display:flex;align-items:center;gap:16px;
-       background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-       border-radius:18px;padding:24px;margin-bottom:14px;
-       text-decoration:none;box-shadow:0 8px 24px rgba(220,39,67,0.2)">
-    <span style="font-size:40px;background:#fff;border-radius:12px;padding:8px">📸</span>
-    <div style="flex:1">
-      <h3 style="color:#fff;margin:0 0 4px">@little_hitansh_1</h3>
-      <p style="color:rgba(255,255,255,0.85);margin:0;font-size:0.9rem">
-        Reels • Photos • Daily Updates
-      </p>
-    </div>
-    <span style="background:#fff;color:#cc2366;font-weight:800;
-      padding:10px 20px;border-radius:50px;white-space:nowrap">FOLLOW</span>
-  </a>
-
+  </div>
+  <div class="scroll-hint" onclick="document.querySelector('.main-content').scrollIntoView({behavior:'smooth'})">⬇️</div>
 </section>
 
-<hr style="margin:20px 0;">
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-<h3>👀 Visitors</h3>
+<!-- ═══ ABOUT ═══ -->
+<div class="section fade-in">
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-num" id="daysCount">—</div>
+      <div class="stat-label">Days of Joy</div>
+    </div>
+    <div class="stat-box" style="background:linear-gradient(135deg,#cc5de8,#74c0fc)">
+      <div class="stat-num" id="monthsCount">—</div>
+      <div class="stat-label">Months Old</div>
+    </div>
+    <div class="stat-box" style="background:linear-gradient(135deg,#63e6be,#40c057)">
+      <div class="stat-num" id="daysNextBday">—</div>
+      <div class="stat-label">Days to Birthday</div>
+    </div>
+  </div>
 
-<img src="https://visitor-badge.laobi.icu/badge?page_id=hitanshworld-ux.hitansh-website">
+  <div class="card">
+    <p class="section-title">👶 Hitansh ke Baare Mein</p>
+    <p style="font-size:1.05rem;line-height:1.7;color:var(--muted)">
+      11 April 2025 ko is duniya mein aaye aur poori family ki zindagi roshni se bhar di. 
+      Har din ek naya surprise, har pal ek nayi khushi. <span style="color:var(--rose)">❤️</span>
+    </p>
+  </div>
+</div>
 
-<br><br>
+<!-- ═══ PHOTO SLIDER ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">📸 Memories Ki Jhalak</p>
+    <div class="slider-wrap" id="sliderWrap">
+      <img src="hero.jpg"    class="active" alt="Hitansh">
+      <img src="tractor.jpg" alt="Hitansh">
+      <img src="beach.jpg"   alt="Hitansh">
+      <img src="suit.jpg"    alt="Hitansh">
+      <img src="red1.jpg"    alt="Hitansh">
+      <img src="store.jpg"   alt="Hitansh">
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</div>
 
-<p>📅 Last Updated: June 2026</p>
+<!-- ═══ GALLERY ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">🖼️ Memory Gallery</p>
+    <div class="gallery">
+      <div class="gallery-item"><img src="store.jpg"   alt="Memory 1"></div>
+      <div class="gallery-item"><img src="tractor.jpg" alt="Memory 2"></div>
+      <div class="gallery-item"><img src="beach.jpg"   alt="Memory 3"></div>
+      <div class="gallery-item"><img src="suit.jpg"    alt="Memory 4"></div>
+      <div class="gallery-item"><img src="red1.jpg"    alt="Memory 5"></div>
+      <div class="gallery-item"><img src="hero.jpg"    alt="Memory 6"></div>
+    </div>
+  </div>
+</div>
 
-<p>
-❤️ Made with Love by Papa, Mummy & Family ❤️
-</p>
+<!-- ═══ TIMELINE ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">📅 Monthly Memories</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-month">April 2025</div><div class="tl-text">👶 Welcome Nana-Nani Home</div></div>
+      <div class="tl-item"><div class="tl-month">May 2025</div><div class="tl-text">😊 First Smile</div></div>
+      <div class="tl-item"><div class="tl-month">June 2025</div><div class="tl-text">🚗 First Family Outing</div></div>
+      <div class="tl-item"><div class="tl-month">July 2025</div><div class="tl-text">🌼 First Family Function</div></div>
+      <div class="tl-item"><div class="tl-month">August 2025</div><div class="tl-text">🌧️ First Rain</div></div>
+      <div class="tl-item"><div class="tl-month">September 2025</div><div class="tl-text">🏠 Welcome Dada-Dadi Home</div></div>
+      <div class="tl-item"><div class="tl-month">October 2025</div><div class="tl-text">🪔 First Diwali</div></div>
+      <div class="tl-item"><div class="tl-month">November 2025</div><div class="tl-text">🍚 Annaprashan Ceremony</div></div>
+      <div class="tl-item"><div class="tl-month">December 2025</div><div class="tl-text">❄️ First Winter</div></div>
+      <div class="tl-item"><div class="tl-month">January 2026</div><div class="tl-text">🚂 First Train Journey</div></div>
+      <div class="tl-item"><div class="tl-month">February 2026</div><div class="tl-text">🚶 First Walking</div></div>
+      <div class="tl-item"><div class="tl-month">March 2026</div><div class="tl-text">🦷 First Teeth</div></div>
+      <div class="tl-item" style="--rose:#ff9f43"><div class="tl-month">April 2026</div><div class="tl-text">🎂 My First Birthday! 🎉</div></div>
+    </div>
+  </div>
+</div>
 
-<p>
-👶 Hitansh's Digital Memory Book
-</p>
+<!-- ═══ FAMILY ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">🌳 Mera Parivar</p>
+    <div class="family-grid">
+      <div class="family-member"><div class="family-emoji">👨</div><div class="family-name">Papa</div><div class="family-role">Best Friend</div></div>
+      <div class="family-member"><div class="family-emoji">👩</div><div class="family-name">Mummy</div><div class="family-role">Superhero</div></div>
+      <div class="family-member"><div class="family-emoji">👴</div><div class="family-name">Dada</div><div class="family-role">Adventure Partner</div></div>
+      <div class="family-member"><div class="family-emoji">👵</div><div class="family-name">Dadi</div><div class="family-role">Sweet Love</div></div>
+      <div class="family-member" style="border-color:var(--rose)"><div class="family-emoji">👶</div><div class="family-name">Hitansh</div><div class="family-role">⭐ Star of the Show</div></div>
+    </div>
+  </div>
+</div>
 
+<!-- ═══ MESSAGES ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">💌 Family Ke Messages</p>
+    <div class="msg-list">
+      <div class="msg-item"><div class="msg-who">👨 Papa</div><div class="msg-text">Hum tumse hamesha pyaar karenge ❤️</div></div>
+      <div class="msg-item"><div class="msg-who">👩 Mummy</div><div class="msg-text">Tum hamare chhote sunshine ho ☀️</div></div>
+      <div class="msg-item"><div class="msg-who">👴 Dada</div><div class="msg-text">Hamesha khush rehna 😊</div></div>
+      <div class="msg-item"><div class="msg-who">👵 Dadi</div><div class="msg-text">Bhagwan tumhe hamesha khush rakhe 🙏</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ VIDEOS ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">🎥 Hitansh Ki Videos</p>
+    <div class="video-wrap">
+      <iframe width="315" height="560" src="https://youtube.com/embed/6TiEnfduO8I?si=Ks5ZraKGS9ItJ_Aa" frameborder="0" allowfullscreen></iframe>
+      <iframe width="315" height="560" src="https://www.youtube.com/embed/fXRLe2mU5b4?si=DJdCwKR1oExsuNXF" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAVORITE THINGS ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">❤️ Jo Mujhe Pasand Hai</p>
+    <div class="love-list">
+      <span class="love-tag">📺 Remote Control</span>
+      <span class="love-tag">🚜 Tractor</span>
+      <span class="love-tag">🌳 Bahar Jana</span>
+      <span class="love-tag">👴 Dada Ke Saath</span>
+      <span class="love-tag">📸 Camera</span>
+      <span class="love-tag">🎵 Laal Tamatar</span>
+      <span class="love-tag">🙉 Kalu Madari</span>
+      <span class="love-tag">🥁 Bartan Concert</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FUNNY MOMENTS ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">😂 Funny Moments</p>
+    <div class="love-list">
+      <span class="love-tag" style="color:#ff9f43;border-color:#ffd097">😄 Remote chhupa diya</span>
+      <span class="love-tag" style="color:#ff9f43;border-color:#ffd097">🥥 Nariyal uthana chaha</span>
+      <span class="love-tag" style="color:#ff9f43;border-color:#ffd097">🥁 Bartan Concert kiya</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ENCYCLOPEDIA ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">📖 Hitansh Encyclopedia</p>
+    <div class="enc-grid">
+      <div class="enc-item"><div class="enc-key">Name</div><div class="enc-value">Hitansh</div></div>
+      <div class="enc-item"><div class="enc-key">Nickname</div><div class="enc-value">Golu Molu 🥰</div></div>
+      <div class="enc-item"><div class="enc-key">Date of Birth</div><div class="enc-value">11 April 2025</div></div>
+      <div class="enc-item"><div class="enc-key">Superpower</div><div class="enc-value">Sabko Hasana 😊</div></div>
+      <div class="enc-item"><div class="enc-key">Favorite Thing</div><div class="enc-value">Remote Control 📺</div></div>
+      <div class="enc-item"><div class="enc-key">Adventure Partner</div><div class="enc-value">Dada-Nana 👴</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ YEAR SLIDER ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">⏳ Hitansh Through Time</p>
+    <input type="range" class="year-range" min="2025" max="2045" value="2025" id="yearSlider">
+    <div class="year-display">
+      <div class="year-number" id="yearLabel">2025</div>
+      <div class="year-story" id="yearStory">👶 Born on 11 April 2025 ❤️</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RANDOM MEMORY ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">🎲 Surprise Memory</p>
+    <button class="memory-btn" onclick="showMemory()">✨ Show Random Memory</button>
+    <div class="memory-result" id="memResult"></div>
+  </div>
+</div>
+
+<!-- ═══ 100 REASONS ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">❤️ 100 Reasons We Love Hitansh</p>
+    <div class="reasons-grid">
+      <div class="reason-item"><span class="reason-num">01</span>Teri sundar muskaan 😊</div>
+      <div class="reason-item"><span class="reason-num">02</span>Teri pyari hansi 😂</div>
+      <div class="reason-item"><span class="reason-num">03</span>Teri jigyaasu nature 🤔</div>
+      <div class="reason-item"><span class="reason-num">04</span>Adventures ka pyaar 🌍</div>
+      <div class="reason-item"><span class="reason-num">05</span>Teri masoom aankhein ❤️</div>
+      <div class="reason-item"><span class="reason-num">06</span>Funny expressions 😆</div>
+      <div class="reason-item"><span class="reason-num">07</span>Sabko khush karta hai 🥰</div>
+      <div class="reason-item"><span class="reason-num">08</span>Dada ke saath jana ❤️</div>
+      <div class="reason-item"><span class="reason-num">09</span>Family mein khushi laata hai 🌟</div>
+      <div class="reason-item"><span class="reason-num">10</span>Tu humaari duniya hai ❤️</div>
+    </div>
+    <p style="text-align:center;margin-top:14px;color:var(--muted);font-style:italic;font-size:0.88rem">Aur reasons har saal add honge... 💕</p>
+  </div>
+</div>
+
+<!-- ═══ OPEN WHEN ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">🎁 Open When Letters</p>
+    <div class="open-when">
+      <details>
+        <summary>🔒 Open When You Turn 5</summary>
+        <div class="letter">Dear Hitansh,<br><br>Aaj tum ek chote se bachhe ho jo ghar ko hansi se bharte ho. Hamesha curious aur khush rehna. ❤️</div>
+      </details>
+      <details>
+        <summary>🔒 Open When You Start School</summary>
+        <div class="letter">Dear Hitansh,<br><br>Achhe bano, doste banao, sawaal karo aur seekhne mein mazaa lo. Hum hamesha tumse proud hain. 📚❤️</div>
+      </details>
+      <details>
+        <summary>🔒 Open When You Turn 18</summary>
+        <div class="letter">Dear Hitansh,<br><br>Yeh message tab likha gaya jab tum ek chote se baby the. Chahe tum kitne bhi bade ho jao, hamesha hamare chhote bachhe rahoge. ❤️</div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TIME CAPSULE ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">⏳ Time Capsule</p>
+    <div class="capsule-box">
+      <span class="capsule-stamp">📅 JUNE 2026</span>
+      <p><strong>Dear Future Hitansh,</strong></p>
+      <br>
+      <p>Agar tum yeh message saalon baad padh rahe ho, yaad karo ki jab yeh likha gaya tha, tum ek khush chhote ladke the jo explore karna, khelna aur sabko muskurana pasand karte the. ❤️</p>
+      <br>
+      <p>Yeh message 18 saal ke hone par dobara padhna. 🎂</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAPA'S DIARY ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">📝 Papa Ki Diary</p>
+    <div class="capsule-box" style="border-color:var(--sky)">
+      <span class="capsule-stamp" style="background:var(--sky)">11 APRIL 2025</span>
+      <p style="line-height:1.7">Aaj hamare chhote Hitansh ne is duniya mein aakar hamari zindagi hamesha ke liye badal di. Teri ek jhalk ne dil jeet liya. ❤️</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DEAR FUTURE ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">💌 Dear Future Hitansh</p>
+    <p style="font-size:1rem;line-height:1.8;color:var(--muted)">
+      Dear Hitansh,<br><br>
+      Jab tum yeh kabhi padhoge, yaad rakhna ki is website ki har photo mein tumhare bachpan ki ek sundar yaad chhipi hai.<br><br>
+      Love ❤️<br>
+      <strong>Papa &amp; Mummy</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ═══ SOCIAL ═══ -->
+<div class="section fade-in">
+  <div class="card">
+    <p class="section-title">📱 Hitansh Ko Follow Karo!</p>
+    <p style="color:var(--muted);margin-bottom:16px;font-size:0.93rem">Cute moments miss mat karna ❤️</p>
+
+    <a href="https://www.youtube.com/@little_hitansh_1" target="_blank" class="social-card social-yt">
+      <div class="social-icon">▶️</div>
+      <div class="social-info">
+        <div class="social-name">@little_hitansh_1</div>
+        <div class="social-desc">YouTube Shorts • Funny Moments</div>
+      </div>
+      <span class="social-cta cta-yt">SUBSCRIBE</span>
+    </a>
+
+    <a href="https://www.instagram.com/little_hitansh_1" target="_blank" class="social-card social-ig">
+      <div class="social-icon">📸</div>
+      <div class="social-info">
+        <div class="social-name">@little_hitansh_1</div>
+        <div class="social-desc">Reels • Photos • Daily Updates</div>
+      </div>
+      <span class="social-cta cta-ig">FOLLOW</span>
+    </a>
+  </div>
+</div>
+
+</div><!-- /main-content -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=hitanshworld-ux.hitansh-website" alt="Visitors" style="margin:0 auto 12px;border-radius:6px;">
+  <p>📅 Last Updated: June 2026</p>
+  <p><span class="heart">❤️</span> Made with Love by Papa, Mummy &amp; Family <span class="heart">❤️</span></p>
+  <p style="margin-top:6px;opacity:0.6;font-size:0.82rem">👶 Hitansh's Digital Memory Book</p>
 </footer>
 
+<!-- ═══ SCRIPTS ═══ -->
 <script>
-const birthDate = new Date("2025-04-11");
-
-const now = new Date();
-const ageDays = Math.floor((now - birthDate)/(1000*60*60*24));
-
-document.getElementById("age").innerHTML =
-"🎉 " + ageDays + " Days of Smiles";
-
-let nextBirthday = new Date(now.getFullYear(),3,11);
-
-if(now > nextBirthday){
-nextBirthday = new Date(now.getFullYear()+1,3,11);
+/* ── Theme ── */
+function toggleTheme() {
+  const t = document.documentElement;
+  const dark = t.dataset.theme !== 'dark';
+  t.dataset.theme = dark ? 'dark' : 'light';
+  document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
 }
 
-const diff = Math.ceil((nextBirthday-now)/(1000*60*60*24));
-
-document.getElementById("birthday").innerHTML =
-"🎂 Next Birthday in " + diff + " Days";
-  const photos = [
-"hero.jpg",
-"tractor.jpg",
-"beach.jpg",
-"suit.jpg",
-"red1.jpg",
-"store.jpg"
-];
-
-let current = 0;
-
-setInterval(() => {
-current++;
-
-if(current >= photos.length){
-current = 0;
+/* ── Music ── */
+let playing = false;
+function toggleMusic() {
+  const a = document.getElementById('bg');
+  if (playing) { a.pause(); document.getElementById('musicBtn').textContent = '🎵'; }
+  else         { a.play();  document.getElementById('musicBtn').textContent = '⏸️'; }
+  playing = !playing;
 }
 
-document.getElementById("slider").src = photos[current];
+/* ── Age & Countdown ── */
+const birth = new Date('2025-04-11');
+function updateAge() {
+  const now = new Date();
+  const days   = Math.floor((now - birth) / 864e5);
+  const months = Math.floor(days / 30.44);
+  document.getElementById('daysCount').textContent   = days;
+  document.getElementById('monthsCount').textContent = months;
+  document.getElementById('ageBadge').textContent    = '🎉 ' + days + ' Din Khushi Ke';
 
-},3000);
-  const slider = document.getElementById("yearSlider");
-const yearTitle = document.getElementById("yearTitle");
-const yearStory = document.getElementById("yearStory");
+  let next = new Date(now.getFullYear(), 3, 11);
+  if (now > next) next = new Date(now.getFullYear() + 1, 3, 11);
+  const diff = Math.ceil((next - now) / 864e5);
+  document.getElementById('daysNextBday').textContent = diff;
+  document.getElementById('bdayBadge').textContent    = '🎂 Birthday Mein ' + diff + ' Din';
+}
+updateAge();
 
-slider.oninput = function() {
+/* ── Slider ── */
+const slides = Array.from(document.querySelectorAll('#sliderWrap img'));
+const dotsEl = document.getElementById('sliderDots');
+let cur = 0;
 
-const year = this.value;
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
 
-yearTitle.innerHTML = "Year: " + year;
+function goTo(n) {
+  slides[cur].classList.remove('active');
+  dotsEl.children[cur].classList.remove('active');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  dotsEl.children[cur].classList.add('active');
+}
 
+setInterval(() => goTo(cur + 1), 3500);
+
+/* ── Year Slider ── */
 const stories = {
-2025:"👶 Born on 11 April 2025 ❤️",
-2026:"🎂 First Birthday",
-2027:"🚶 Learning new things",
-2028:"🏫 School Journey Begins",
-2029:"⚽ Playing and Exploring",
-2030:"🌟 Growing Every Day"
+  2025:'👶 11 April 2025 ko is duniya mein aaye ❤️',
+  2026:'🎂 Pehla Janamdin!',
+  2027:'🚶 Nayi cheezein seekh raha hai',
+  2028:'🏫 School ki shuruat',
+  2029:'⚽ Khel aur exploration',
+  2030:'🌟 Har din bada ho raha hai'
 };
 
-yearStory.innerHTML =
-stories[year] || "✨ Future memories will be added...";
+const yearSlider = document.getElementById('yearSlider');
+yearSlider.oninput = function() {
+  document.getElementById('yearLabel').textContent = this.value;
+  document.getElementById('yearStory').textContent = stories[this.value] || '✨ Future memories will be added...';
 };
-  function showMemory(){
 
+/* ── Random Memory ── */
 const memories = [
-"😊 First Smile",
-"🌊 First Beach Visit",
-"🚜 Tractor Adventure",
-"📺 Remote Control Mission",
-"🎂 First Birthday"
+  '😊 Pehli Muskaan',
+  '🌊 Pehli Beach Trip',
+  '🚜 Tractor Adventure',
+  '📺 Remote Control Mission',
+  '🎂 Pehla Janamdin',
+  '🚂 Pehli Train Journey',
+  '🦷 Pehla Dant',
+  '🚶 Pehla Kadam',
+  '🥁 Bartan Concert',
+  '🪔 Pehli Diwali'
 ];
 
-document.getElementById("memoryText").innerHTML =
-memories[Math.floor(Math.random()*memories.length)];
-  }
+function showMemory() {
+  const el = document.getElementById('memResult');
+  el.textContent = memories[Math.floor(Math.random() * memories.length)];
+  el.classList.remove('show');
+  void el.offsetWidth; // reflow to restart animation
+  el.classList.add('show');
+}
+
+/* ── Scroll Fade-In ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 
 </body>
