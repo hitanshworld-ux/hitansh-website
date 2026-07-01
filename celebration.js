@@ -57,3 +57,8 @@ function startCelebration() {
   const audio = new Audio("celebrate.mp3");
   audio.play().catch(() => {});
 }
+const today = new Date();
+
+if (today.getDate() === 11 && today.getMonth() === 6) {
+  window.onload = startCelebration;
+}
